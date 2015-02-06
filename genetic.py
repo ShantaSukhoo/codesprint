@@ -115,7 +115,8 @@ def gen(cropList, ls):
             for x in range(len(current)):
                 if current[x] > 0:
                     p=current[x]*cropList[x].price
-                    json += '"name'+str(x+1)+'":'+str(cropList[x].name)+', "price'+str(x+1)+'":'+str(p)+',"amount'+str(x+1)+'":'+str(cropList[x].price)
+                   # json += '"name'+str(x+1)+'":'+str(cropList[x].name)+', "price'+str(x+1)+'":'+str(p)+',"amount'+str(x+1)+'":'+str(cropList[x].price)
+                    json += 'name'+str(x+1)+':'+str(cropList[x].name)+', price'+str(x+1)+':'+str(p)+',amount'+str(x+1)+':'+str(cropList[x].price)
             json+='},'
         print json
         return json
