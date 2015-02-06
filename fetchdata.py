@@ -13,6 +13,9 @@ from parse_rest.connection import ParseBatcher
 class Crop(Object):
     pass
 
+category = "ROOT CROPS"
+categories = ["root crops","condiments and spices","leafy vegetables","vegetables", "fruits","citrus"]
+
 def retrieveMonthly(base_url,  month, year):
 	filename = "monthly "+"-"+str(month)+"-"+str(year)+".xls"
 	months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
@@ -108,18 +111,27 @@ def traverseWorkbook(url, params = {}, workbook_type = "daily"):
 		return None
 
 def storeMonthlyPrices():
-    data = retrieveMonthly("", 12, 2014 )
+    all_scores = Crop.Query.all()
+    data = retrieveMonthly("", 12, 2014)
 	#length = 0
     crops = []
+    #batches = []
+    #batches.append(batcher)
     if data and len(data) > 0:
-        for x in range(0, len(data)):
-            crop = Crop(name= data['commodity'], price=data['price'], weight=random.randint(1, 5))
+        for x in range(0, 49):
+            crop = Crop(name=data[x]['commodity'], price=data[x]['mean'], size=random.randint(1, 5))
             crops.append(crop)
-
     batcher = ParseBatcher()
     batcher.batch_save(crops)
 
-		#db.drop_collection("dailyRecent")
+    #if data and len(data) > 49:
+    #    for x in range(49, len(data)):
+    #        crop = Crop(name=data[x]['commodity'], price=data[x]['mean'], size=random.randint(1, 5))
+    #        crops.append(crop)
+
+    #batcher2 = ParseBatcher()
+    #batcher2.batch_save(crops)
+    	#db.drop_collection("dailyRecent")
 		#recent_daily = db.dailyRecent
 		#recent_daily.insert(dData)
 		#length = recent_daily.count()
