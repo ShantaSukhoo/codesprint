@@ -33,9 +33,9 @@ def gen(cropList, landSize):
             indiSum += individual[x] * cropList[x].size
 
         if( indiSum>landSize):
-                total = total - penalty(indiSum -landSize)
+                total = total - penalty(indiSum-landSize)
 
-        return total
+        return total,
 
     toolbox.register("evaluate", evalOneMax)
     toolbox.register("mate", tools.cxTwoPoint)
@@ -43,10 +43,10 @@ def gen(cropList, landSize):
     toolbox.register("select", tools.selTournament, tournsize=3)
 
     def main():
-        pop = toolbox.population(n=300)
+        pop = toolbox.population(n=500)
         cxpb =0.6
         mupb =0.01
-        ngen =1000
+        ngen =500
         g =1
         # Evaluate the entire population
         fitnesses = list(map(toolbox.evaluate, pop))
@@ -102,9 +102,11 @@ def gen(cropList, landSize):
             sum2 = sum(x*x for x in fits)
             std = abs(sum2 / length - mean**2)**0.5
 
-            print("  Min %s" % min(fits))
-            print("  Max %s" % max(fits))
-            print("  Avg %s" % mean)
-            print("  Std %s" % std)
+            # print("  Min %s" % min(fits))
+            # print("  Max %s" % max(fits))
+            # print("  Avg %s" % mean)
+            # print("  Std %s" % std)
+        sortedPop = sorted(pop, key=lambda ind:ind.fitness)
+        print(sortedPop[0])
 
-    main ()
+    main()
