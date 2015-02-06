@@ -15,9 +15,10 @@ class Crop(Object):
 
 class evaluateAPI(Resource):
   def render_GET(self, request):
-      crops = Crop.Query.all()
-      results = genetic.gen(crops)
-      return json_util.dumps(results)
+      if 'size' in request.args:
+          crops = Crop.Query.all()
+          results = genetic.gen(crops, request.args['size'])
+          return json_util.dumps(results)
 
 root = File("lampwww")               #Create a root
 root.putChild("magic", evaluateAPI())     #Create a child that will handle requests (the second argument must be the class name)

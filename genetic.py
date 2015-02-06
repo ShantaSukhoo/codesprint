@@ -4,7 +4,7 @@ from deap import base
 from deap import creator
 from deap import tools
 
-def gen(cropList):
+def gen(cropList, landSize):
     #global variables
     landSize=100
     maxCropSize =100
@@ -29,7 +29,7 @@ def gen(cropList):
         total =0
         indiSum =0
         for x in range(numCrops):
-            total += individual[x] * cropList[x].price
+            total += individual[x] * int(cropList[x].price)
             indiSum += individual[x] * cropList[x].size
 
         if( indiSum>landSize):

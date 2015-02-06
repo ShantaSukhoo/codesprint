@@ -119,7 +119,7 @@ def storeMonthlyPrices():
     #batches.append(batcher)
     if data and len(data) > 0:
         for x in range(0, 49):
-            crop = Crop(name=data[x]['commodity'], price=data[x]['mean'], size=random.randint(1, 5))
+            crop = Crop(name=data[x]['commodity'], price=data[x]['mean'], size=random.randint(1, 5), soil="all")
             crops.append(crop)
     batcher = ParseBatcher()
     batcher.batch_save(crops)
