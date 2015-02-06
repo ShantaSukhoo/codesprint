@@ -7,7 +7,7 @@ from deap import tools
 def gen(cropList):
     #global variables
     landSize=100
-    maxCropSize =10
+    maxCropSize =100
     numCrops= len(cropList)
 
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
@@ -29,11 +29,11 @@ def gen(cropList):
         total =0
         indiSum =0
         for x in range(numCrops):
-            total += individual * cropList[x].cost
-            indiSum += individual * cropList[x].size
+            total += individual[x] * cropList[x].price
+            indiSum += individual[x] * cropList[x].size
 
         if( indiSum>landSize):
-                total = total -penalty(indiSum -landSize)
+                total = total - penalty(indiSum -landSize)
 
         return total
 
