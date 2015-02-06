@@ -22,7 +22,7 @@ class evaluateAPI(Resource):
 root = File("lampwww")               #Create a root
 root.putChild("magic", evaluateAPI())     #Create a child that will handle requests (the second argument must be the class name)
 factory = Site(root)             #Initialize the twisted object
-reactor.listenTCP(8080, factory)   #Choose the port to listen on (80 is standard for HTTP)
+reactor.listenTCP(9080, factory)   #Choose the port to listen on (80 is standard for HTTP)
                                #so don't bother putting anything after it
 
 reactor.run()                         #Start listening, this command is an infinite loop
