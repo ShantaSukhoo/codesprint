@@ -4,10 +4,11 @@ from deap import base
 from deap import creator
 from deap import tools
 
-def gen(cropList, landSize):
+def gen(cropList, ls):
+    landSize=int(ls)
+
     #global variables
-    landSize=100
-    maxCropSize =100
+    maxCropSize =landSize
     numCrops= len(cropList)
 
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
@@ -21,19 +22,19 @@ def gen(cropList, landSize):
         toolbox.attr_bool, numCrops)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
-    def penalty(diff):
-        diff=diff*2
-        return diff
+    # def penalty(diff):
+    #     diff=diff*2
+    #     return diff
 
     def evalOneMax(individual):
-        total =0
-        indiSum =0
+        total = 0
+        indiSum = 0
         for x in range(numCrops):
             total += individual[x] * int(cropList[x].price)
             indiSum += individual[x] * cropList[x].size
 
-        if( indiSum>landSize):
-                total = total - penalty(indiSum-landSize)
+        if indiSum > landSize:
+                return 0,
 
         return total,
 
@@ -43,10 +44,10 @@ def gen(cropList, landSize):
     toolbox.register("select", tools.selTournament, tournsize=3)
 
     def main():
-        pop = toolbox.population(n=500)
+        pop = toolbox.population(n=200)
         cxpb =0.6
         mupb =0.01
-        ngen =500
+        ngen =300
         g =1
         # Evaluate the entire population
         fitnesses = list(map(toolbox.evaluate, pop))
@@ -106,7 +107,17 @@ def gen(cropList, landSize):
             # print("  Max %s" % max(fits))
             # print("  Avg %s" % mean)
             # print("  Std %s" % std)
+        json = ""
         sortedPop = sorted(pop, key=lambda ind:ind.fitness)
-        print(sortedPop[0])
+        for y in range(3):
+            current =sortedPop[y]
+            json+='{'
+            for x in range(len(current)):
+                if current[x] > 0:
+                    p=current[x]*cropList[x].price
+                    json += '"name'+str(x+1)+'":'+str(cropList[x].name)+', "price'+str(x+1)+'":'+str(p)+',"amount'+str(x+1)+'":'+str(cropList[x].price)
+            json+='},'
+        print json
+        return json
 
-    main()
+    return main()

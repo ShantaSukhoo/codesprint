@@ -21,7 +21,8 @@ class Magic(restful.Resource):
             print soil
             crops = Crop.Query.filter(soil=soil)
             results = genetic.gen(crops, size)
-            return json_util.dumps(results)
+            #return json_util.dumps(results)
+            return results
 
 api.add_resource(Magic, '/magic/<string:soil>/<string:size>')
 
